@@ -231,7 +231,7 @@
             const dayDiv = $('<div class="day"></div>');
             dayDiv.html(`<span>${day.getDate()}</span>`);
             if (dayData) {
-              dayDiv.append(`<div class="price">+¥${dayData.Addi_RMB.toFixed(2)}</div>`);
+              dayDiv.append(`<div class="price">+¥${dayData.Addi_RMB.toFixed(0)}</div>`);
             } else {
               dayDiv.append('<div class="no-data">暂无数据</div>');
             }
