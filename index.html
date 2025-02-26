@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>酒店价格日历</title>
+  <!-- FullCalendar CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.11.0/main.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.11.0/main.min.css" rel="stylesheet" />
+  
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 20px;
+      background-color: #f0f4f8;
+      color: #333;
+    }
+    select {
+      margin: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+      background-color: white;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    select:focus {
+      border-color: #2196F3;
+      box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
+    }
+    button {
+      padding: 12px 24px;
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    button:hover {
+      background-color: #1e88e5;
+      transform: translateY(-2px);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    .calendar-container {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .month {
+      padding: 20px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .month:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    .month h3 {
+      text-align: center;
+      color: #2196F3;
+      margin-bottom: 15px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .month .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+    .weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      text-align: center;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .day {
+      padding: 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      text-align: center;
+      background-color: #f9f9f9;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
+    }
+    .day:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: #e3f2fd;
+    }
+    .day span {
+      display: block;
+      font-size: 14px;
+      color: #555;
+      font-weight: 500;
+    }
+    .day .price {
+      font-weight: bold;
+      color: #2196F3;
+      margin-top: 5px;
+      font-size: 12px;
+    }
+    .day .no-data {
+      color: #999;
+      font-style: italic;
+      font-size: 12px;
+    }
+    h1 {
+      color: #2196F3;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+      font-weight: 700;
+    }
+    label {
+      font-size: 16px;
+      font-weight: 600;
+      margin-right: 10px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>二日房券价格</h1>
+  <label for="levelSelect">选择价格：</label>
+  <select id="levelSelect">
+    <option value="">请选择价格</option>
+    <option value="￥888">￥888</option>
+    <option value="￥1388">￥1388</option>
+    <option value="￥1888">￥1888</option>
+    <option value="￥2888">￥2888</option>
+  </select>
+  <br><br>
+  <label for="hotelSelect">选择酒店：</label>
+  <select id="hotelSelect" disabled>
+    <option value="">请选择酒店</option>
+  </select>
+  <br><br>
+  <label for="roomSelect">选择房型：</label>
+  <select id="roomSelect" disabled>
+    <option value="">请选择房型</option>
+  </select>
+  <br><br>
+  <button id="viewCalendarBtn" disabled>查看价格日历</button>
+  <div id="calendarContainer" class="calendar-container" style="display: none;"></div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    const dataUrl = 'https://cooiip.github.io/HPC/assets/JPHotelTicket.json'; // 替换为实际的JSON数据文件路径
+    let data = [];
+    // 获取数据
+    $.getJSON(dataUrl, function(response) {
+      data = response;
+    });
+    // 根据Level更新酒店下拉框
+    $('#levelSelect').change(function() {
+      const selectedLevel = $(this).val();
+      const hotelSelect = $('#hotelSelect');
+      const roomSelect = $('#roomSelect');
+      
+      if (selectedLevel) {
+        const hotels = [...new Set(data.filter(item => item.Level == selectedLevel).map(item => item.Hotel_Name))];
+        
+        hotelSelect.empty().append('<option value="">请选择酒店</option>');
+        hotels.forEach(hotel => {
+          hotelSelect.append(`<option value="${hotel}">${hotel}</option>`);
+        });
+        hotelSelect.prop('disabled', false);
+      } else {
+        hotelSelect.empty().append('<option value="">请选择酒店</option>');
+        hotelSelect.prop('disabled', true);
+        roomSelect.empty().append('<option value="">请选择房型</option>');
+        roomSelect.prop('disabled', true);
+      }
+    });
+    // 根据酒店选择更新房型下拉框
+    $('#hotelSelect').change(function() {
+      const selectedHotel = $(this).val();
+      const selectedLevel = $('#levelSelect').val();
+      const roomSelect = $('#roomSelect');
+      
+      if (selectedHotel && selectedLevel) {
+        const rooms = [...new Set(data.filter(item =>
+          item.Hotel_Name == selectedHotel &&
+          item.Level == selectedLevel
+        ).map(item => item.Room_Type))];
+        
+        roomSelect.empty().append('<option value="">请选择房型</option>');
+        rooms.forEach(room => {
+          roomSelect.append(`<option value="${room}">${room}</option>`);
+        });
+        roomSelect.prop('disabled', false);
+      } else {
+        roomSelect.empty().append('<option value="">请选择房型</option>');
+        roomSelect.prop('disabled', true);
+      }
+    });
+    // 查看价格日历按钮点击事件
+    $('#viewCalendarBtn').click(function() {
+      const selectedLevel = $('#levelSelect').val();
+      const selectedHotel = $('#hotelSelect').val();
+      const selectedRoom = $('#roomSelect').val();
+      if (selectedLevel && selectedHotel && selectedRoom) {
+        const selectedData = data.filter(item =>
+          item.Level == selectedLevel &&
+          item.Hotel_Name == selectedHotel &&
+          item.Room_Type == selectedRoom
+        );
+        const calendarContainer = $('#calendarContainer');
+        calendarContainer.empty().show();
+        // 生成2025年日历，按月份分组
+        const months = [
+          { name: "一月", startDate: new Date('2025-01-01'), endDate: new Date('2025-01-31') },
+          { name: "二月", startDate: new Date('2025-02-01'), endDate: new Date('2025-02-28') },
+          { name: "三月", startDate: new Date('2025-03-01'), endDate: new Date('2025-03-31') },
+          { name: "四月", startDate: new Date('2025-04-01'), endDate: new Date('2025-04-30') },
+          { name: "五月", startDate: new Date('2025-05-01'), endDate: new Date('2025-05-31') },
+          { name: "六月", startDate: new Date('2025-06-01'), endDate: new Date('2025-06-30') },
+          { name: "七月", startDate: new Date('2025-07-01'), endDate: new Date('2025-07-31') },
+          { name: "八月", startDate: new Date('2025-08-01'), endDate: new Date('2025-08-31') },
+          { name: "九月", startDate: new Date('2025-09-01'), endDate: new Date('2025-09-30') },
+          { name: "十月", startDate: new Date('2025-10-01'), endDate: new Date('2025-10-31') },
+          { name: "十一月", startDate: new Date('2025-11-01'), endDate: new Date('2025-11-30') },
+          { name: "十二月", startDate: new Date('2025-12-01'), endDate: new Date('2025-12-31') }
+        ];
+        months.forEach(month => {
+          const monthDiv = $('<div class="month"></div>');
+          monthDiv.append(`<h3>${month.name}</h3>`);
+          // 添加周名
+          const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+          const weekdaysDiv = $('<div class="weekdays"></div>');
+          weekdays.forEach(day => {
+            weekdaysDiv.append(`<div>${day}</div>`);
+          });
+          monthDiv.append(weekdaysDiv);
+          const calendar = $('<div class="calendar"></div>');
+          
+          // 获取这个月的第一天是周几
+          const firstDay = new Date(month.startDate);
+          const firstDayWeekday = firstDay.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
+          let currentDate = new Date(month.startDate);
+          let daysInMonth = [];
+          while (currentDate <= month.endDate) {
+            daysInMonth.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
+          }
+          // 填充空白格子，直到第一个日期正确对齐
+          for (let i = 0; i < firstDayWeekday; i++) {
+            calendar.append('<div class="day"></div>');
+          }
+          // 渲染每个日期
+          daysInMonth.forEach(day => {
+            const dayStr = day.toISOString().split('T')[0];
+            const dayData = selectedData.find(item => item.Date === dayStr);
+            const dayDiv = $('<div class="day"></div>');
+            dayDiv.html(`<span>${day.getDate()}</span>`);
+            if (dayData) {
+              dayDiv.append(`<div class="price">+¥${dayData.Addi_RMB.toFixed(2)}</div>`);
+            } else {
+              dayDiv.append('<div class="no-data">暂无数据</div>');
+            }
+            calendar.append(dayDiv);
+          });
+          monthDiv.append(calendar);
+          calendarContainer.append(monthDiv);
+        });
+      }
+    });
+    // 启用查看价格日历按钮
+    $('#roomSelect').change(function() {
+      $('#viewCalendarBtn').prop('disabled', false);
+    });
+  </script>
+</body>
+</html>
