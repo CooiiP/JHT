@@ -14,30 +14,36 @@
       background-color: #f8f9fa;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .calendar-container {
-      margin-top: 20px;
-      display: grid;
-      grid-template-columns: repeat(1, 1fr);
-      gap: 20px;
-    }
-    .month {
-      padding: 20px;
-      background-color: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
+    /* 基本样式 */
+.calendar-container {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+  width: 100%; /* 确保容器宽度为 100% */
+}
+
+.month {
+  padding: 20px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%; /* 确保月历宽度为 100% */
+}
+
+.month h3 {
+  text-align: center;
+  color: #0d6efd;
+  margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 600;
+}
     .month:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
-    .month h3 {
-      text-align: center;
-      color: #0d6efd;
-      margin-bottom: 15px;
-      font-size: 18px;
-      font-weight: 600;
-    }
+    
     .month .calendar {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -202,7 +208,55 @@
     font-size: 10px;
   }
 }
+/* 在小屏幕上调整月历的宽度 */
+@media (max-width: 768px) {
+  .calendar-container {
+    width: 100%; /* 保证容器宽度为 100% */
+    margin: 0 auto; /* 居中容器 */
+  }
 
+  .month {
+    width: 100%; /* 月历的宽度适应屏幕 */
+    padding: 15px; /* 调整内边距 */
+  }
+
+  .month .calendar {
+    grid-template-columns: repeat(7, 1fr); /* 保证一行有7列 */
+  }
+
+  .weekdays {
+    font-size: 12px; /* 调整星期名称的字体 */
+  }
+
+  .day {
+    padding: 8px; /* 调整日期单元格的内边距 */
+    font-size: 12px; /* 调整字体大小 */
+  }
+
+  /* 适应按钮和其他UI元素的大小 */
+  .month h3 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .month {
+    padding: 10px; /* 小屏幕下减小内边距 */
+  }
+
+  .month h3 {
+    font-size: 14px; /* 调整标题字体大小 */
+  }
+
+  .day {
+    padding: 6px; /* 小屏幕下减少日期单元格内边距 */
+    font-size: 10px; /* 调整字体大小 */
+  }
+
+  .weekdays {
+    font-size: 10px; /* 调整星期名称字体 */
+  }
+}
 /* 小屏幕（手机端）适配 */
 @media (max-width: 480px) {
   .month-navigation button {
@@ -258,18 +312,18 @@
       </button>
       <div class="month-navigation" id="monthNavigation">
         <!-- 1~12月导航栏 -->
-        <button data-month="0">1月</button>
-        <button data-month="1">2月</button>
-        <button data-month="2">3月</button>
-        <button data-month="3">4月</button>
-        <button data-month="4">5月</button>
-        <button data-month="5">6月</button>
-        <button data-month="6">7月</button>
-        <button data-month="7">8月</button>
-        <button data-month="8">9月</button>
-        <button data-month="9">10月</button>
-        <button data-month="10">11月</button>
-        <button data-month="11">12月</button>
+        <button data-month="0">1</button>
+        <button data-month="1">2</button>
+        <button data-month="2">3</button>
+        <button data-month="3">4</button>
+        <button data-month="4">5</button>
+        <button data-month="5">6</button>
+        <button data-month="6">7</button>
+        <button data-month="7">8</button>
+        <button data-month="8">9</button>
+        <button data-month="9">10</button>
+        <button data-month="10">11</button>
+        <button data-month="11">12</button>
       </div>
       <button id="nextMonthBtn" class="btn btn-outline-primary">
         下一月 <i class="bi bi-chevron-right"></i>
