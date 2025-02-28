@@ -6,7 +6,6 @@
   <title>酒店价格日历</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <!-- FullCalendar CSS -->
   <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@5.11.0/main.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.11.0/main.min.css" rel="stylesheet" />
   <style>
@@ -15,30 +14,28 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     /* 基本样式 */
-.calendar-container {
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  gap: 20px;
-  width: 100%; /* 确保容器宽度为 100% */
-}
-
-.month {
-  padding: 20px;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 100%; /* 确保月历宽度为 100% */
-}
-
-.month h3 {
-  text-align: center;
-  color: #0d6efd;
-  margin-bottom: 15px;
-  font-size: 18px;
-  font-weight: 600;
-}
+    .calendar-container {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 20px;
+      width: 100%; /* 确保容器宽度为 100% */
+    }
+    .month {
+      padding: 20px;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      width: 100%; /* 确保月历宽度为 100% */
+    }
+    .month h3 {
+      text-align: center;
+      color: #0d6efd;
+      margin-bottom: 15px;
+      font-size: 18px;
+      font-weight: 600;
+    }
     .month:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -97,199 +94,209 @@
       font-size: 12px;
     }
 
-/* 基本样式 */
-.navigation-buttons {
-  display: none; /* 默认隐藏 */
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-  padding: 12px 20px; /* 调整按钮内边距 */
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
+    /* 基本样式 */
+    .navigation-buttons {
+      display: none; /* 默认隐藏 */
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding: 12px 20px; /* 调整按钮内边距 */
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
 
-#prevMonthBtn, #nextMonthBtn {
-  padding: 8px 18px; /* 调整按钮内边距 */
-  font-size: 16px; /* 调小字体 */
-  font-weight: 600;
-  background: linear-gradient(to right, #007bff, #00aaff);
-  color: white;
-  border: 2px solid #007bff;
-  border-radius: 50px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-  display: flex;
-  align-items: center;
-}
+    #prevMonthBtn, #nextMonthBtn {
+      padding: 8px 18px; /* 调整按钮内边距 */
+      font-size: 16px; /* 调小字体 */
+      font-weight: 600;
+      background: linear-gradient(to right, #007bff, #00aaff);
+      color: white;
+      border: 2px solid #007bff;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      align-items: center;
+    }
 
-#prevMonthBtn i, #nextMonthBtn i {
-  margin-right: 8px; /* 图标和文字间距 */
-}
+    #prevMonthBtn i, #nextMonthBtn i {
+      margin-right: 8px; /* 图标和文字间距 */
+    }
 
-#prevMonthBtn:hover, #nextMonthBtn:hover {
-  background: linear-gradient(to right, #00aaff, #007bff);
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+    #prevMonthBtn:hover, #nextMonthBtn:hover {
+      background: linear-gradient(to right, #00aaff, #007bff);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
 
-/* 月份导航栏按钮 */
-.month-navigation {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-grow: 1;
-  overflow-x: auto; /* 横向滚动 */
-  padding-bottom: 8px; /* 增加底部间距，避免滚动条遮挡 */
-}
+    /* 月份导航栏按钮 */
+    .month-navigation {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-grow: 1;
+      overflow-x: auto; /* 横向滚动 */
+      padding-bottom: 8px; /* 增加底部间距，避免滚动条遮挡 */
+    }
 
-/* 为月份导航栏按钮设置样式 */
-.month-navigation button {
-  padding: 6px 14px; /* 调整按钮内边距 */
-  font-size: 14px; /* 调小字体 */
-  font-weight: 600;
-  border: 2px solid #0d6efd;
-  border-radius: 10px;
-  background-color: #ffffff;
-  color: #0d6efd;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
+    /* 为月份导航栏按钮设置样式 */
+    .month-navigation button {
+      padding: 6px 14px; /* 调整按钮内边距 */
+      font-size: 14px; /* 调小字体 */
+      font-weight: 600;
+      border: 2px solid #0d6efd;
+      border-radius: 10px;
+      background-color: #ffffff;
+      color: #0d6efd;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
 
-.month-navigation button:hover {
-  background-color: #0d6efd;
-  color: white;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
+    .month-navigation button:hover {
+      background-color: #0d6efd;
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
 
-/* 上下月按钮居中 */
-#prevMonthBtn {
-  margin-right: auto;
-}
+    /* 上下月按钮居中 */
+    #prevMonthBtn {
+      margin-right: auto;
+    }
 
-#nextMonthBtn {
-  margin-left: auto;
-}
+    #nextMonthBtn {
+      margin-left: auto;
+    }
 
-.month-navigation {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-}
+    /* 移动端适配 */
+    @media (max-width: 768px) {
+      /* 上下月按钮调整 */
+      #prevMonthBtn, #nextMonthBtn {
+        font-size: 14px; /* 调小字体 */
+        padding: 8px 16px; /* 调整按钮内边距 */
+      }
 
-/* 移动端适配 */
-@media (max-width: 768px) {
-  /* 上下月按钮调整 */
-  #prevMonthBtn, #nextMonthBtn {
-    font-size: 14px; /* 调小字体 */
-    padding: 8px 16px; /* 调整按钮内边距 */
-  }
+      /* 月份导航栏按钮字体和间距调整 */
+      .month-navigation button {
+        font-size: 12px; /* 调小字体 */
+        padding: 5px 12px; /* 调整按钮内边距 */
+      }
 
-  /* 月份导航栏按钮字体和间距调整 */
-  .month-navigation button {
-    font-size: 12px; /* 调小字体 */
-    padding: 5px 12px; /* 调整按钮内边距 */
-  }
+      /* 月份按钮在小屏幕上保持横向排列 */
+      .month-navigation {
+        flex-direction: row; /* 确保按钮水平排列 */
+        gap: 8px;
+      }
 
-  /* 月份按钮在小屏幕上保持横向排列 */
-  .month-navigation {
-    flex-direction: row; /* 确保按钮水平排列 */
-    gap: 8px;
-  }
+      /* 增加按钮的可点击面积 */
+      #prevMonthBtn, #nextMonthBtn {
+        padding: 10px 25px; /* 调整按钮内边距 */
+      }
 
-  /* 增加按钮的可点击面积 */
-  #prevMonthBtn, #nextMonthBtn {
-    padding: 10px 25px; /* 调整按钮内边距 */
-  }
+      /* 调整日历的布局，确保在小屏幕上适配 */
+      .month {
+        padding: 12px;
+      }
 
-  /* 调整日历的布局，确保在小屏幕上适配 */
-  .month {
-    padding: 12px;
-  }
+      .day {
+        padding: 6px;
+        font-size: 10px;
+      }
+    }
 
-  .day {
-    padding: 6px;
-    font-size: 10px;
-  }
-}
-/* 在小屏幕上调整月历的宽度 */
-@media (max-width: 768px) {
-  .calendar-container {
-    width: 100%; /* 保证容器宽度为 100% */
-    margin: 0 auto; /* 居中容器 */
-  }
+    /* 在小屏幕上调整月历的宽度 */
+    @media (max-width: 768px) {
+      .calendar-container {
+        width: 100%; /* 保证容器宽度为 100% */
+        margin: 0 auto; /* 居中容器 */
+      }
 
-  .month {
-    width: 100%; /* 月历的宽度适应屏幕 */
-    padding: 15px; /* 调整内边距 */
-  }
+      .month {
+        width: 100%; /* 月历的宽度适应屏幕 */
+        padding: 15px; /* 调整内边距 */
+      }
 
-  .month .calendar {
-    grid-template-columns: repeat(7, 1fr); /* 保证一行有7列 */
-  }
+      .month .calendar {
+        grid-template-columns: repeat(7, 1fr); /* 保证一行有7列 */
+      }
 
-  .weekdays {
-    font-size: 12px; /* 调整星期名称的字体 */
-  }
+      .weekdays {
+        font-size: 12px; /* 调整星期名称的字体 */
+      }
 
-  .day {
-    padding: 8px; /* 调整日期单元格的内边距 */
-    font-size: 12px; /* 调整字体大小 */
-  }
+      .day {
+        padding: 8px; /* 调整日期单元格的内边距 */
+        font-size: 12px; /* 调整字体大小 */
+      }
 
-  /* 适应按钮和其他UI元素的大小 */
-  .month h3 {
-    font-size: 16px;
-  }
-}
+      /* 适应按钮和其他UI元素的大小 */
+      .month h3 {
+        font-size: 16px;
+      }
+    }
 
-@media (max-width: 480px) {
-  .month {
-    padding: 10px; /* 小屏幕下减小内边距 */
-  }
+    @media (max-width: 480px) {
+      .month {
+        padding: 10px; /* 小屏幕下减小内边距 */
+      }
 
-  .month h3 {
-    font-size: 14px; /* 调整标题字体大小 */
-  }
+      .month h3 {
+        font-size: 14px; /* 调整标题字体大小 */
+      }
 
-  .day {
-    padding: 6px; /* 小屏幕下减少日期单元格内边距 */
-    font-size: 10px; /* 调整字体大小 */
-  }
+      .day {
+        padding: 6px; /* 小屏幕下减少日期单元格内边距 */
+        font-size: 10px; /* 调整字体大小 */
+      }
 
-  .weekdays {
-    font-size: 10px; /* 调整星期名称字体 */
-  }
-}
-/* 小屏幕（手机端）适配 */
-@media (max-width: 480px) {
-  .month-navigation button {
-    font-size: 10px; /* 调小字体 */
-    padding: 4px 10px; /* 调整按钮内边距 */
-  }
+      .weekdays {
+        font-size: 10px; /* 调整星期名称字体 */
+      }
+    }
+    
+    /* 小屏幕（手机端）适配 */
+    @media (max-width: 480px) {
+      .month-navigation button {
+        font-size: 10px; /* 调小字体 */
+        padding: 4px 10px; /* 调整按钮内边距 */
+      }
 
-  .month-navigation {
-    gap: 6px;
-  }
+      .month-navigation {
+        gap: 6px;
+      }
 
-  #prevMonthBtn, #nextMonthBtn {
-    font-size: 12px;
-    padding: 8px 15px; /* 调整按钮内边距 */
-  }
-}
+      #prevMonthBtn, #nextMonthBtn {
+        font-size: 12px;
+        padding: 8px 15px; /* 调整按钮内边距 */
+      }
+    }
+    .hotel-info {
+      margin-top: 20px;
+    }
+
+    .card {
+      margin-top: 20px;
+      border-radius: 10px; /* 圆角 */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    }
   </style>
 </head>
 <body>
   <div class="container mt-5">
-    <h1 class="text-center text-primary mb-4">二日房券价格</h1>
+    <h1 class="text-center text-primary mb-4">二晚房券价格</h1>
+    <p class="text-center mb-4" style="font-size: 14px; color: #555;">
+      月历上标注了您订购从当日开始的三天两晚酒店由于季节波动需要额外支付的价格。
+      <br>您最终需要支付的价格是基础价格+额外价格。
+      <br>优惠套餐不含早餐。
+    </p>
     <div class="row mb-4">
       <div class="col-md-3">
         <label for="levelSelect" class="form-label">选择价格：</label>
         <select id="levelSelect" class="form-select">
-          <option value="">请选择价格</option>
+          <option value="">请选择基础价格</option>
+          <option value="￥398">￥398</option>
           <option value="￥888">￥888</option>
           <option value="￥1388">￥1388</option>
           <option value="￥1888">￥1888</option>
@@ -312,6 +319,18 @@
         <button id="viewCalendarBtn" class="btn btn-primary w-100" disabled>查看价格日历</button>
       </div>
     </div>
+    
+    <!-- 显示酒店信息的容器 -->
+    <div id="hotelInfo" class="hotel-info mt-4" style="display: none;">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title" style="font-size: 18px"><strong>酒店介绍</strong></h3>
+          <p id="hotelDescription" class="card-text"></p>
+          <img id="hotelImage" src="" alt="酒店图片" class="img-fluid" style="max-width: 100%; height: auto;">
+        </div>
+      </div>
+    </div>
+
     <div id="calendarContainer" class="calendar-container" style="display: none;"></div>
     <div class="navigation-buttons" id="navigationButtons">
       <button id="prevMonthBtn" class="btn btn-outline-primary">
@@ -337,6 +356,7 @@
       </button>
     </div>
   </div>
+  
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <!-- jQuery -->
@@ -347,10 +367,18 @@
     let currentDate = new Date(); // 当前系统日期
     let currentMonth = currentDate.getMonth(); // 当前月份（0-11）
     let currentYear = currentDate.getFullYear(); // 当前年份
+    let hotelDescriptions = []; // 用来存储酒店介绍的数组
+
+    // 加载酒店介绍数据
+    $.getJSON('https://cooiip.github.io/HPC/assets/hotelDescriptions.json', function(response) {
+      hotelDescriptions = response;
+    });
+    
     // 获取数据
     $.getJSON(dataUrl, function(response) {
       data = response;
     });
+
     // 根据Level更新酒店下拉框
     $('#levelSelect').change(function() {
       const selectedLevel = $(this).val();
@@ -372,85 +400,129 @@
         roomSelect.prop('disabled', true);
       }
     });
-    // 根据酒店选择更新房型下拉框
+
+    // 根据酒店选择更新房型下拉框并显示酒店介绍和图片
     $('#hotelSelect').change(function() {
       const selectedHotel = $(this).val();
       const selectedLevel = $('#levelSelect').val();
       const roomSelect = $('#roomSelect');
       
       if (selectedHotel && selectedLevel) {
-        const rooms = [...new Set(data.filter(item =>
-          item.Hotel_Name == selectedHotel &&
-          item.Level == selectedLevel
-        ).map(item => item.Room_Type))];
-        
-        roomSelect.empty().append('<option value="">请选择房型</option>');
-        rooms.forEach(room => {
-          roomSelect.append(`<option value="${room}">${room}</option>`);
-        });
-        roomSelect.prop('disabled', false);
+        // 从 hotelDescriptions 数组中找到对应的酒店介绍
+        const hotelDescription = hotelDescriptions.find(item => item.Hotel_Name === selectedHotel);
+
+        if (hotelDescription) {
+          // 显示酒店的介绍
+          $('#hotelDescription').text(hotelDescription.Description || '暂无介绍');
+          
+          // 使用提供的路径加载酒店图片
+          const hotelImageUrl = `https://cooiip.github.io/HPC/assets/${selectedHotel}.jpg`;
+          $('#hotelImage').attr('src', hotelImageUrl);
+          
+          // 显示酒店信息部分
+          $('#hotelInfo').show();
+          
+          // 更新房型下拉框
+          const rooms = [...new Set(data.filter(item =>
+            item.Hotel_Name == selectedHotel &&
+            item.Level == selectedLevel
+          ).map(item => item.Room_Type))];
+          
+          roomSelect.empty().append('<option value="">请选择房型</option>');
+          rooms.forEach(room => {
+            roomSelect.append(`<option value="${room}">${room}</option>`);
+          });
+          roomSelect.prop('disabled', false);
+        }
       } else {
+        // 如果没有选择酒店，隐藏酒店信息和房型
+        $('#hotelInfo').hide();
         roomSelect.empty().append('<option value="">请选择房型</option>');
         roomSelect.prop('disabled', true);
       }
     });
+
     // 渲染日历
     function renderCalendar(year, month) {
-      const selectedLevel = $('#levelSelect').val();
-      const selectedHotel = $('#hotelSelect').val();
-      const selectedRoom = $('#roomSelect').val();
-      if (selectedLevel && selectedHotel && selectedRoom) {
-        const selectedData = data.filter(item =>
-          item.Level == selectedLevel &&
-          item.Hotel_Name == selectedHotel &&
-          item.Room_Type == selectedRoom
-        );
-        const calendarContainer = $('#calendarContainer');
-        calendarContainer.empty().show();
-        const startDate = new Date(year, month, 1);
-        const endDate = new Date(year, month + 1, 0);
-        const monthName = startDate.toLocaleString('zh-CN', { month: 'long' });
-        const monthDiv = $('<div class="month"></div>');
-        monthDiv.append(`<h3>${year}年 ${monthName}</h3>`);
-        // 添加周名
-        const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-        const weekdaysDiv = $('<div class="weekdays"></div>');
-        weekdays.forEach(day => {
-          weekdaysDiv.append(`<div>${day}</div>`);
-        });
-        monthDiv.append(weekdaysDiv);
-        const calendar = $('<div class="calendar"></div>');
-        // 获取这个月的第一天是周几
-        const firstDayWeekday = startDate.getDay(); // 0=Sunday, 1=Monday, ..., 6=Saturday
-        // 填充空白格子，直到第一个日期正确对齐
-        for (let i = 0; i < firstDayWeekday; i++) {
-          calendar.append('<div class="day"></div>');
+        const selectedLevel = $('#levelSelect').val();
+        const selectedHotel = $('#hotelSelect').val();
+        const selectedRoom = $('#roomSelect').val();
+
+        if (selectedLevel && selectedHotel && selectedRoom) {
+            const selectedData = data.filter(item =>
+                item.Level == selectedLevel &&
+                item.Hotel_Name == selectedHotel &&
+                item.Room_Type == selectedRoom
+            );
+            const calendarContainer = $('#calendarContainer');
+            calendarContainer.empty().show();
+            const startDate = new Date(year, month, 1);
+            const endDate = new Date(year, month + 1, 0);
+            const monthName = startDate.toLocaleString('zh-CN', { month: 'long' });
+            const monthDiv = $('<div class="month"></div>');
+            monthDiv.append(`<h3>${year}年 ${monthName}</h3>`);
+
+            // 添加周名
+            const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+            const weekdaysDiv = $('<div class="weekdays"></div>');
+            weekdays.forEach(day => {
+                weekdaysDiv.append(`<div>${day}</div>`);
+            });
+            monthDiv.append(weekdaysDiv);
+            const calendar = $('<div class="calendar"></div>');
+
+            // 获取这个月的第一天是周几
+            const firstDayWeekday = startDate.getDay();
+
+            // 填充空白格子，直到第一个日期正确对齐
+            for (let i = 0; i < firstDayWeekday; i++) {
+                calendar.append('<div class="day"></div>');
+            }
+
+            // 渲染每个日期
+            const today = new Date(); // 获取当前日期
+            today.setHours(0, 0, 0, 0); // 将时间部分归零，以便进行比较
+
+            for (let day = 1; day <= endDate.getDate(); day++) {
+                const currentDay = new Date(year, month, day);
+                const dayStr = `${currentDay.getFullYear()}-${String(currentDay.getMonth() + 1).padStart(2, '0')}-${String(currentDay.getDate()).padStart(2, '0')}`;
+                const dayData = selectedData.find(item => item.Date === dayStr);
+                const dayDiv = $('<div class="day"></div>');
+                dayDiv.html(`<span>${day}</span>`);
+
+                // 检查日期是否在当前日期之前
+                if (currentDay < today) {
+                    // 如果是过去的日期，设置底色为灰色
+                    dayDiv.css('background-color', 'lightgray'); // 设置底色为浅灰色
+                    dayDiv.css('pointer-events', 'none'); // 禁用点击事件
+                } else {
+                    // 当前日期及以后的日期处理
+                    if (dayData) {
+                        // 检查 Addi_RMB 的值
+                        if (dayData.Addi_RMB === 0) {
+                            dayDiv.append('<div class="price" style="color: black;">+¥0</div>'); // 黑色
+                        } else {
+                            dayDiv.append(`<div class="price">+¥${dayData.Addi_RMB.toFixed(0)}</div>`); // 保持原有颜色
+                        }
+                    } else {
+                        dayDiv.append('<div class="no-data">暂无数据</div>');
+                    }
+                    
+                }
+                calendar.append(dayDiv);
+            }
+            monthDiv.append(calendar);
+            calendarContainer.append(monthDiv);
+            // 显示导航按钮
+            $('#navigationButtons').show();
         }
-        // 渲染每个日期
-        for (let day = 1; day <= endDate.getDate(); day++) {
-          const currentDay = new Date(year, month, day);
-          // 调整日期格式，确保与 JSON 数据中的格式一致
-          const dayStr = `${currentDay.getFullYear()}-${String(currentDay.getMonth() + 1).padStart(2, '0')}-${String(currentDay.getDate()).padStart(2, '0')}`;
-          const dayData = selectedData.find(item => item.Date === dayStr);
-          const dayDiv = $('<div class="day"></div>');
-          dayDiv.html(`<span>${day}</span>`);
-          if (dayData) {
-            dayDiv.append(`<div class="price">+¥${dayData.Addi_RMB.toFixed(0)}</div>`);
-          } else {
-            dayDiv.append('<div class="no-data">暂无数据</div>');
-          }
-          calendar.append(dayDiv);
-        }
-        monthDiv.append(calendar);
-        calendarContainer.append(monthDiv);
-        // 显示导航按钮
-        $('#navigationButtons').show();
-      }
     }
+    
     // 查看价格日历按钮点击事件
     $('#viewCalendarBtn').click(function() {
       renderCalendar(currentYear, currentMonth);
     });
+    
     // 上一月按钮点击事件
     $('#prevMonthBtn').click(function() {
       currentMonth--;
@@ -460,6 +532,7 @@
       }
       renderCalendar(currentYear, currentMonth);
     });
+    
     // 下一月按钮点击事件
     $('#nextMonthBtn').click(function() {
       currentMonth++;
@@ -469,12 +542,14 @@
       }
       renderCalendar(currentYear, currentMonth);
     });
+    
     // 月份导航栏点击事件
     $('#monthNavigation button').click(function() {
       const selectedMonth = parseInt($(this).attr('data-month'));
       currentMonth = selectedMonth;
       renderCalendar(currentYear, currentMonth);
     });
+    
     // 启用查看价格日历按钮
     $('#roomSelect').change(function() {
       $('#viewCalendarBtn').prop('disabled', false);
